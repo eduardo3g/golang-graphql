@@ -46,7 +46,23 @@ func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCour
 }
 
 func (r *mutationResolver) CreateChapter(ctx context.Context, input model.NewChapter) (*model.Chapter, error) {
-	panic(fmt.Errorf("not implemented"))
+	var course *model.Course
+
+	for _, v := range r.Courses {
+		if v.ID == input.CourseID {
+			course = v
+		}
+	}
+
+	chapter := &model.Chapter{
+		ID:     fmt.Sprintf("T%d", rand.Int()),
+		Name:   input.Name,
+		Course: course,
+	}
+
+	r.Chapters = append(r.Chapters, chapter)
+
+	return chapter, nil
 }
 
 func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
