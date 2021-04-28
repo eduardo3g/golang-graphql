@@ -6,13 +6,22 @@ package graph
 import (
 	"context"
 	"fmt"
+	"math/rand"
 
 	"github.com/codeedu/fc2-graphql/graph/generated"
 	"github.com/codeedu/fc2-graphql/graph/model"
 )
 
 func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
-	panic(fmt.Errorf("not implemented"))
+	category := model.Category{
+		ID:          fmt.Sprintf("T%d", rand.Int()),
+		Name:        input.Name,
+		Description: input.Description,
+	}
+
+	r.Categories = append(r.Categories, &category)
+
+	return &category, nil
 }
 
 func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCourse) (*model.Course, error) {
